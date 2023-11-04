@@ -1,44 +1,50 @@
-import { Component } from "react"
+import { useState } from "react"
 import { Button, StyledDiv } from "./AddContact.styled.js";
 
 
-export class AddContact extends Component {
-    state = {
-    name: '',
-    number: ''
-  };
+export const AddContact = ({handleAddContact}) => {
+    
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
     
       const contactData = {
-          name: this.state.name,
-          number: this.state.number
+          name: name,
+          number: number
           
     };
-      this.props.handleAddContact(contactData);
-      this.formReset();
+      handleAddContact(contactData);
+      formReset();
   };
     
-    handleInputChange = event => {
+    const handleInputChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    this.setState({
-      [name]: value,
-    });
+      
+      switch (name) {
+        case 'name':
+          setName(value)
+          break;
+        case 'number':
+          setNumber(value)
+          break
+        default:
+          break;
+      }
     };
     
-    formReset = () => {
-        this.setState({
-            name: '',
-            number: ''
-    });
-    }
+    const formReset = () => {
+      setName('');
+      setNumber('');
+    };
     
-    render() {
+    
+    
         return(
                 <StyledDiv>
-                <form onSubmit={this.handleSubmit} >    
+                <form onSubmit={handleSubmit} >    
                     <label >
                         <h3>Name</h3>
                         <i className="bi bi-person"></i>
@@ -46,8 +52,8 @@ export class AddContact extends Component {
                                 id="name"
                                 type="text"
                                 name="name"
-                                value={this.state.name}
-                                onChange={this.handleInputChange}
+                                value={name}
+                                onChange={handleInputChange}
                                 pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                                 required
@@ -59,8 +65,8 @@ export class AddContact extends Component {
                             <input
                                 type="tel"
                                 name="number"
-                                value={this.state.number}
-                                onChange={this.handleInputChange}
+                                value={number}
+                                onChange={handleInputChange}
                                 pattern="^\+?\d{1,4}[ .\-]?\(?\d{1,3}\)?[ .\-]?\d{1,4}[ .\-]?\d{1,4}[ .\-]?\d{1,9}$"
                                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                                 required
@@ -70,6 +76,5 @@ export class AddContact extends Component {
                 </form>
                 </StyledDiv>
                 )
-            }
-    
+            
 }
