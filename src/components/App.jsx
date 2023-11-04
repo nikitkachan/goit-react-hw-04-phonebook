@@ -52,5 +52,4 @@ export const App = () => {
       <ContactsList filteredContacts={filteredContacts()} handleDeleteContact={handleDeleteContact} />
     </Wrapper>
     )
-  
 }
